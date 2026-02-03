@@ -9,6 +9,10 @@ const initialize = (app) => {
 
   app.use(express.urlencoded({ extended: true }));
 
+  app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
+  });
+
   mongoose
     .connect(process.env.MONGO_CONNECTION)
     .then(() => console.log("Connected to MongoDB"))

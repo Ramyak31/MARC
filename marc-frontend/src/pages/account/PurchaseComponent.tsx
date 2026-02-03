@@ -19,7 +19,7 @@ import {
   getOrders,
   placeOrder,
 } from "../../redux/actions/accountActions";
-import "./PurchaseComponent.scss";
+import "./purchaseComponent.scss";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";

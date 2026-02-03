@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../lib/api";
 
 interface ReportEntry {
   description: string;
@@ -23,7 +24,7 @@ interface EngineerUpdatePayload {
 
 export const createReport = (reportData: EngineerUpdatePayload) => async () => {
   try {
-    const response = await axios.post("http://localhost:9000/engineerUpdate", reportData);
+    const response = await axios.post(`${API_BASE_URL}/engineerUpdate`, reportData);
     return response.data;
   } catch (error: unknown) {
     console.log(error);
@@ -31,7 +32,7 @@ export const createReport = (reportData: EngineerUpdatePayload) => async () => {
 };
 export const updateTaskStatus = (taskId: string, status: string, flag: boolean) => async () => {
   try {
-    const response = await axios.put(`http://localhost:9000/tasks/${taskId}`, { status, flag });
+    const response = await axios.put(`${API_BASE_URL}/tasks/${taskId}`, { status, flag });
     return response.data;
     // dispatch({
     //   type: 'UPDATE_TASK_STATUS',

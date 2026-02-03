@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../lib/api";
 import { Dispatch } from "redux";
 import {
   getOrdersRequest,
@@ -16,7 +17,7 @@ export const getOrders = () => async (dispatch: Dispatch) => {
   dispatch(getOrdersRequest()); 
 
   try {
-    const response = await axios.get("http://localhost:9000/manager/update");
+    const response = await axios.get(`${API_BASE_URL}/manager/update`);
     dispatch(getOrdersSuccess(response.data)); 
   } catch (error) {
     dispatch(
@@ -31,7 +32,7 @@ export const getProjects = () => async (dispatch: Dispatch) => {
   dispatch(getProjectsRequest());
 
   try {
-    const response = await axios.get("http://localhost:9000/projects");
+    const response = await axios.get(`${API_BASE_URL}/projects`);
     console.log("Projects Response:", response.data); 
 
     if (Array.isArray(response.data.data)) {
@@ -53,7 +54,7 @@ export const placeOrder = (orderData: any) => async (dispatch: Dispatch) => {
 
   try {
     const response = await axios.post(
-      "http://localhost:9000/place-order",
+      `${API_BASE_URL}/place-order`,
       orderData
     );
     dispatch(placeOrderSuccess(response.data)); 
@@ -70,7 +71,7 @@ export const placeOrder = (orderData: any) => async (dispatch: Dispatch) => {
 
 export const getPlacedOrders = () => async (dispatch: Dispatch) => {
   try {
-    const response = await axios.get("http://localhost:9000/place-order");
+    const response = await axios.get(`${API_BASE_URL}/place-order`);
     console.log("Placed Orders Response:", response.data); 
     dispatch(getOrdersSuccess(response.data)); 
   } catch (error) {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../lib/api";
 import { AppDispatch } from "../store/store";
 import { loginRequest, loginSuccess, loginFailure, logout as logoutAction, fetchLoginDetails } from "../reducer/loginSlice";
 
@@ -11,7 +12,7 @@ export const login = (email: string, password: string, role: string) => async (d
     dispatch(loginRequest());
   
     try {
-      const response = await axios.post("http://localhost:9000/login", {
+      const response = await axios.post(`${API_BASE_URL}/login`, {
         email,
         password,
         role,
@@ -46,7 +47,7 @@ export const logout = () => (dispatch: AppDispatch) => {
 export const fetchLogin = () => async (dispatch: AppDispatch) => {
   dispatch(loginRequest());
   try {
-    const response = await axios.get("http://localhost:9000/login");
+    const response = await axios.get(`${API_BASE_URL}/login`);
     dispatch(fetchLoginDetails(response.data.data));
   } catch (error: unknown) {
     if (error instanceof Error) {

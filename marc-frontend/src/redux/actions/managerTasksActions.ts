@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AppDispatch } from "../store/store";  // Import AppDispatch
+import { API_BASE_URL } from "../../lib/api";
 import {
   fetchTasksRequest,
   fetchTasksSuccess,
@@ -39,7 +40,7 @@ export const fetchTasks = () => async (dispatch: AppDispatch) => {
   dispatch(fetchTasksRequest()); 
 
   try {
-    const response = await axios.get("http://localhost:9000/managerTasks"); 
+    const response = await axios.get(`${API_BASE_URL}/managerTasks`); 
     dispatch(fetchTasksSuccess(response.data)); 
   } catch (error: unknown) {  
     if (error instanceof Error) {  
@@ -54,7 +55,7 @@ export const fetchTasks = () => async (dispatch: AppDispatch) => {
 export const fetchEngineerUpdate = () => async (dispatch: AppDispatch) => {
   dispatch(fetchEngineerUpdateRequest());
   try {
-    const response = await axios.get("http://localhost:9000/engineerUpdate");
+    const response = await axios.get(`${API_BASE_URL}/engineerUpdate`);
     dispatch(fetchEngineerUpdateSuccess(response.data));
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -95,7 +96,7 @@ export const createTask = (payload: { days: { day: string; tasks: { title: strin
   dispatch(addTaskRequest()); 
 
   try {
-    const response = await axios.post("http://localhost:9000/managerTasks", payload); 
+    const response = await axios.post(`${API_BASE_URL}/managerTasks`, payload); 
     dispatch(addTaskSuccess(response.data)); 
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -106,7 +107,7 @@ export const createTask = (payload: { days: { day: string; tasks: { title: strin
   }
 };
 
-const API_URL = "http://localhost:9000"; // Update with your server URL
+const API_URL = API_BASE_URL;
 
 // Fetch all projects for a specific manager
 export const fetchProjectsByManager = async (managerName: string) => {
@@ -122,7 +123,7 @@ export const fetchProjectsByManager = async (managerName: string) => {
 export const placeOrder = (order: Order) => async (dispatch: AppDispatch) => {
   dispatch(placeOrderRequest()); 
   try {
-    const response = await axios.post("http://localhost:9000/manager/update", order); 
+    const response = await axios.post(`${API_BASE_URL}/manager/update`, order); 
     dispatch(placeOrderSuccess(response.data)); 
   } catch (error: unknown) {
     if (error instanceof Error) {

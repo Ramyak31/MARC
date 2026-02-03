@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { API_BASE_URL } from "../../lib/api";
 
 import "./CreateProject.scss";
 
@@ -90,12 +91,12 @@ export default function CreateProject() {
     const fetchProjectsAndRoles = async () => {
       try {
         const projectResponse = await axios.get(
-          "http://localhost:9000/projects"
+          `${API_BASE_URL}/projects`
         );
         setProjects(projectResponse.data.data);
         setFilteredProjects(projectResponse.data.data);
 
-        const rolesResponse = await axios.get("http://localhost:9000/login");
+        const rolesResponse = await axios.get(`${API_BASE_URL}/login`);
         const users = rolesResponse.data.data;
 
         setRoles({
@@ -167,12 +168,12 @@ export default function CreateProject() {
     try {
       if (editingProjectId) {
         await axios.put(
-          `http://localhost:9000/projects/${editingProjectId}`,
+          `${API_BASE_URL}/projects/${editingProjectId}`,
           formData
         );
         alert("Project updated successfully!");
       } else {
-        await axios.post("http://localhost:9000/projects", formData);
+        await axios.post(`${API_BASE_URL}/projects`, formData);
         alert("Project created successfully!");
       }
 
@@ -192,7 +193,7 @@ export default function CreateProject() {
       setIsModalOpen(false);
       setEditingProjectId(null);
 
-      const projectResponse = await axios.get("http://localhost:9000/projects");
+      const projectResponse = await axios.get(`${API_BASE_URL}/projects`);
       setProjects(projectResponse.data.data);
       setFilteredProjects(projectResponse.data.data);
     } catch (error) {
@@ -229,11 +230,11 @@ export default function CreateProject() {
   const handleDeleteProject = async (projectName: string) => {
     if (window.confirm("Are you sure you want to delete this project?")) {
       try {
-        await axios.delete(`http://localhost:9000/projects/${projectName}`);
+        await axios.delete(`${API_BASE_URL}/projects/${projectName}`);
         alert("Project deleted successfully!");
 
         const projectResponse = await axios.get(
-          "http://localhost:9000/projects"
+          `${API_BASE_URL}/projects`
         );
         setProjects(projectResponse.data.data);
         setFilteredProjects(projectResponse.data.data);

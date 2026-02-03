@@ -20,6 +20,7 @@ import {
 } from "@mui/icons-material";
 import "./EngineerComponent.scss";
 import { useTranslation } from "react-i18next";
+import { AppDispatch } from "../../../redux/store/store";
 
 interface Task {
   _id: string;
@@ -50,12 +51,8 @@ interface ManagerState {
   error: string | null;
 }
 
-interface EngineerProp {
-  email: string;
-}
-
-const EngineerComponent: React.FC<EngineerProp> = ({ email }) => {
-  const dispatch = useDispatch();
+const EngineerComponent: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { t } = useTranslation(); 
 

@@ -26,7 +26,8 @@ import {
 interface Order {
   orderId: string;
   ManagerOrderid: string;
-  projectId: string;
+  projectId?: string;
+  project?: string;
   bricks: number;
   steel: number;
   cement: number;

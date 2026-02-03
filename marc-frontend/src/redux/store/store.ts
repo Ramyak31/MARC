@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkDispatch } from "redux-thunk";
 import rootReducer from "../../redux/reducer/index"; // Make sure you have a rootReducer
 
 export type RootState = ReturnType<typeof rootReducer>;

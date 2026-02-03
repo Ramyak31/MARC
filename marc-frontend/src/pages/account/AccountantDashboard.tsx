@@ -27,10 +27,8 @@ import {
 import { getProjects, getOrders } from "../../redux/actions/accountActions";
 import "./accountantdashboard.scss";
 import { RootState, AppDispatch } from "../../redux/store/store"; // adjust the path as needed
-import LogoutIcon from "@mui/icons-material/Logout";
 import Snackbar from "@mui/material/Snackbar";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "../../components/LanguageSwitcher";
 import NavBar from "../../components/Navbar";
 
 const AccountantDashboard: React.FC = () => {
@@ -80,13 +78,6 @@ const AccountantDashboard: React.FC = () => {
   // Navigate to the PurchaseComponent on button click
   const handlePlaceOrderClick = () => {
     navigate("/place-order");
-  };
-
-  const handleLogout = () => {
-    // Clear any stored user data/tokens
-    localStorage.removeItem("userRole");
-    // Navigate to login page
-    navigate("/");
   };
 
   return (

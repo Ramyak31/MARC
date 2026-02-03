@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -10,7 +9,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../../components/LanguageSwitcher"; // Adjust the import path
 import "../../pages/manager/manager.scss";
-import NavBar from "../../components/Navbar";
 
 const Manager: React.FC = () => {
   const navigate = useNavigate();

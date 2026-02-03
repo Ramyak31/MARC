@@ -1,14 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
 
 // Define types for tasks, engineer updates, and orders
 interface Task {
-  id: string;
-  title: string;
-  description: string;
-  dueDate: string | null;
-  status: string;
-  flag: boolean;
+  [key: string]: any;
 }
 
 interface EngineerUpdate {
@@ -19,7 +13,8 @@ interface EngineerUpdate {
 interface Order {
   orderId: string;
   ManagerOrderid: string;
-  projectId: string;
+  projectId?: string;
+  project?: string;
   bricks: number;
   steel: number;
   cement: number;

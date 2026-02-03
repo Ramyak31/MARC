@@ -1,6 +1,4 @@
 // actionTypes.ts
-import {ThunkAction} from 'redux-thunk';
-import { Action } from 'redux';// Correct import
 // Manager Task Actions
 export const FETCH_MANAGER_TASKS_REQUEST = 'FETCH_MANAGER_TASKS_REQUEST' as const;
 export const FETCH_MANAGER_TASKS_SUCCESS = 'FETCH_MANAGER_TASKS_SUCCESS' as const;

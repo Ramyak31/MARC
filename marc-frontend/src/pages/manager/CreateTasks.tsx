@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button, Grid, Card, CardContent, Typography, Modal, Box, TextField, IconButton } from "@mui/material";
@@ -6,11 +6,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
 import { fetchTasks, createTask, updateTasksForDay } from "../../redux/actions/managerTasksActions"; 
 import { fetchProjects } from "../../redux/actions/projectActions";
 import './createtasks.scss';
-import { RootState } from "../../redux/store/store";
+import { RootState, AppDispatch } from "../../redux/store/store";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../../components/LanguageSwitcher"; 
 
@@ -30,16 +29,15 @@ interface TaskDay {
 }
 
 const CreateTasks = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { projectName,email } = location.state || {};
-  const { tasks, loading, error } = useSelector((state: any) => state.managerTasks);
+  const { tasks } = useSelector((state: any) => state.managerTasks);
   const { project } = useSelector((state: RootState) => state.project);
   const [tasksByDay, setTasksByDay] = useState<TaskDay[]>([]);
   const [activeDay, setActiveDay] = useState<number | null>(null);
-  const [activeTaskIndex, setActiveTaskIndex] = useState<number | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const { t } = useTranslation();
   const [engineerName, setEngineerName] = useState<string | null>(null);
@@ -104,7 +102,6 @@ const CreateTasks = () => {
 
   const handleCardClick = (index: number) => {
     setActiveDay(index);
-    setActiveTaskIndex(null);
     setOpenModal(true);
   };
 
@@ -128,6 +125,11 @@ const CreateTasks = () => {
 
       const currentDay = tasksByDay[activeDay!];
 
+      if (!projectName) {
+        alert("Project name is required before saving tasks.");
+        return;
+      }
+
       if (currentDay.isNew) {
         const payload = {
           project: projectName,
@@ -140,7 +142,7 @@ const CreateTasks = () => {
         updatedDays[activeDay!] = { ...updatedDays[activeDay!], isNew: false };
         setTasksByDay(updatedDays);
       } else {
-        dispatch(updateTasksForDay(projectName, dayData.day, dayData.tasks));
+        dispatch(updateTasksForDay(projectName, activeDay!, dayData.tasks));
       }
 
       closeModal();
@@ -152,36 +154,6 @@ const CreateTasks = () => {
   const closeModal = () => {
     setOpenModal(false);
     setActiveDay(null);
-    setActiveTaskIndex(null);
-  };
-
-  const handleSubmit = async () => {
-    const payload = tasksByDay.map((day) => ({
-      day: day.day,
-      tasks: day.tasks.map((task) => ({
-        title: task.title,
-        description: task.description,
-        dueDate: task.dueDate,
-        status: task.status,
-        flag: task.flag,
-      })),
-    }));
-
-    try {
-      const response = await axios.post(
-        "http://localhost:9000/submitAllTasks",
-        { project: projectName, days: payload }
-      );
-      console.log("All tasks submitted successfully:", response.data);
-      alert("All tasks have been submitted.");
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Error submitting all tasks:", error.message);
-      } else {
-        console.error("An unknown error occurred.");
-      }
-      alert("Failed to submit tasks. Please try again.");
-    }
   };
 
   const handleDeleteDay = (dayIndex: number) => {

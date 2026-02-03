@@ -1,26 +1,27 @@
 import axios from "axios";
-import { Dispatch } from 'redux';
-interface Report {
+
+interface ReportEntry {
+  description: string;
+  progress: number;
+  issues: string;
+  resolutions: string;
+}
+
+interface EngineerUpdatePayload {
   engineerName: string;
-  engineerId: string;
   projectName: string;
-  projectId: string;
   bricks: number;
   steel: number;
   cement: number;
   sand: number;
   coarseAggregate: number;
   fineAggregate: number;
-  reports: {
-    description: string;
-    progress: number;
-    issues: string;
-    resolutions: string;
-  }[];
+  engineerId?: string;
+  projectId?: string;
+  reports: ReportEntry[];
 }
 
-
-export const createReport = (reportData: Report) => async () => {
+export const createReport = (reportData: EngineerUpdatePayload) => async () => {
   try {
     const response = await axios.post("http://localhost:9000/engineerUpdate", reportData);
     return response.data;
@@ -28,7 +29,7 @@ export const createReport = (reportData: Report) => async () => {
     console.log(error);
   }
 };
-export const updateTaskStatus = (taskId: string, status: string, flag: boolean) => async (dispatch: Dispatch) => {
+export const updateTaskStatus = (taskId: string, status: string, flag: boolean) => async () => {
   try {
     const response = await axios.put(`http://localhost:9000/tasks/${taskId}`, { status, flag });
     return response.data;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchProjectsByManager } from "../../redux/actions/managerTasksActions";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -16,7 +16,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import LanguageSwitcher from "../../components/LanguageSwitcher";
 import "./Projects.scss";
 import NavBar from "../../components/Navbar";
 

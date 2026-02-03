@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
+import { RootState, AppDispatch } from "../../redux/store/store";
 import { fetchProjects } from "../../redux/actions/projectActions";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
@@ -41,19 +41,10 @@ interface Project {
   fineAggregate: number;
   location: string;
 }
-type Order = {
-  ManagerOrderid: string;
-  projectName: string;
-  bricks: number;
-  steel: number;
-  cement: number;
-  coarseAggregate: number;
-  fineAggregate: number;
-};
 mapboxgl.accessToken = 'pk.eyJ1IjoicmFteWFrYXJ1dGhhcHBhbmRpYW4iLCJhIjoiY200ZGY4YjVhMDAxODJtcG9uZjJyNTBqYyJ9.guAhHE6G0ZKf_--vddbBhw';
 
 const OwnerLandingPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const { project } = useSelector((state: RootState) => state.project);
   const { engineerUpdates } = useSelector((state: any) => state.managerTasks);

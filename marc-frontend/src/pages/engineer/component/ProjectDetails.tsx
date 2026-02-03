@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchTasks } from "../../../redux/actions/managerTasksActions";
 import { updateTaskStatus } from "../../../redux/actions/engineerTasksActions";
 import TaskModal from "./TaskModal";
 import ReportModal from "./ReportModal";
-import EngineerHeader from "./EngineerHeader";
 import "./projectdetails.scss";
 import {
   Box,
@@ -27,6 +26,7 @@ import {
 } from "@mui/icons-material";
 import NavBar from "../../../components/Navbar";
 import { useTranslation } from "react-i18next";
+import { AppDispatch } from "../../../redux/store/store";
 
 interface Task {
   _id: string;
@@ -37,17 +37,15 @@ interface Task {
   flag: boolean;
 }
 
-interface Project {
-  _id: string;
-  project: string;
-  days: { day: string; tasks: Task[] }[];
+interface Day {
+  day: string;
+  tasks: Task[];
 }
 
 const ProjectDetails: React.FC = () => {
   const { t } = useTranslation();
   const { projectId } = useParams<{ projectId: string }>();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { tasks, loading, error } = useSelector(
     (state: any) => state.managerTasks
@@ -146,7 +144,7 @@ const ProjectDetails: React.FC = () => {
     }
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
   };
 
@@ -192,7 +190,7 @@ const ProjectDetails: React.FC = () => {
           />
         </Tabs>
 
-        {project.days.map((day) => (
+        {project.days.map((day: Day) => (
           <Box key={day.day} sx={{ mb: 4 }}>
             <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
               <CalendarIcon sx={{ mr: 1, color: "primary.main" }} />
@@ -292,10 +290,6 @@ const ProjectDetails: React.FC = () => {
         onClose={handleReportModalClose}
         engineerName={"Adharsh"}
         projectName={project.project}
-        onSubmit={(reportData) => {
-          console.log("Report generated:", reportData);
-          handleReportModalClose();
-        }}
       />
 
       <button onClick={handleGenerateReport} className="generateButton">

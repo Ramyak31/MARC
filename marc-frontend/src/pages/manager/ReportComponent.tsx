@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEngineerUpdate, placeOrder } from '../../redux/actions/managerTasksActions';
 import {
@@ -20,7 +20,6 @@ import "../../pages/manager/report.scss";
 import { AppDispatch } from "../../redux/store/store";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "../../components/LanguageSwitcher"; // Import the LanguageSwitcher component
 import NavBar from '../../components/Navbar';
 
 // Define types for the state
@@ -51,6 +50,7 @@ interface EngineerUpdate {
     issues: string;
     resolutions: string;
   }>;
+  [key: string]: string | number | { date: string; description: string; progress: number; issues: string; resolutions: string; }[];
 }
 
 interface Order {
@@ -96,7 +96,6 @@ const ReportComponent: React.FC = () => {
     dispatch(fetchEngineerUpdate());
   }, [dispatch]);
 
-  const handleTabChange = (_: React.ChangeEvent<{}>, newValue: number) => setActiveTab(newValue);
   const handleModalOpen = () => setOpenModal(true);
   const handleModalClose = () => setOpenModal(false);
 
@@ -195,10 +194,17 @@ const ReportComponent: React.FC = () => {
     {
       label: t("reportsComponent.materials"),
       columns: ['Material', 'Quantity'],
-      data: ['bricks', 'steel', 'cement', 'coarseAggregate', 'fineAggregate'].map((material: string) => ({
-        Material: material.toUpperCase(),
-        Quantity: engineerUpdates.reduce((total: number, update: EngineerUpdate) => total + (update[material] || 0), 0),
-      })),
+      data: ['bricks', 'steel', 'cement', 'coarseAggregate', 'fineAggregate'].map((material: string) => {
+        const total = engineerUpdates.reduce((sum: number, update: EngineerUpdate) => {
+          const value = update[material];
+          return sum + (typeof value === "number" ? value : 0);
+        }, 0);
+
+        return {
+          Material: material.toUpperCase(),
+          Quantity: total,
+        };
+      }),
     },
     {
       label: t("reportsComponent.reports"),

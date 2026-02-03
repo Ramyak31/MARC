@@ -10,16 +10,11 @@ import {
   TextField,
   MenuItem,
   CircularProgress,
-  Divider,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 import "./CreateProject.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import { fetchLogin } from "../../redux/actions/loginActions";
-import { fetchProjects } from "../../redux/actions/projectActions";
 
 
 interface Role {

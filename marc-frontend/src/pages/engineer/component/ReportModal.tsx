@@ -11,18 +11,19 @@ import {
   Button,
   Grid,
 } from "@mui/material";
+import { AppDispatch } from "../../../redux/store/store";
 
 
 
 interface ReportModalProps {
-  projectName: String;
-  engineerName: String;
+  projectName: string;
+  engineerName: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, projectName, engineerName }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [formData, setFormData] = useState({
     engineerName: engineerName,
@@ -54,8 +55,28 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, projectName,
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Dispatch createReport with formData
-    dispatch(createReport(formData));
+    dispatch(
+      createReport({
+        engineerName: formData.engineerName,
+        engineerId: formData.engineerId,
+        projectName: formData.projectName,
+        projectId: formData.projectId,
+        bricks: formData.bricks,
+        steel: formData.steel,
+        cement: formData.cement,
+        sand: formData.sand,
+        coarseAggregate: formData.coarseAggregate,
+        fineAggregate: formData.fineAggregate,
+        reports: [
+          {
+            description: formData.description,
+            progress: formData.progress,
+            issues: formData.issues,
+            resolutions: formData.resolutions,
+          },
+        ],
+      })
+    );
 
     // Close the modal after submitting the report
     onClose();
@@ -163,6 +184,17 @@ const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, projectName,
                 type="number"
                 name="progress"
                 value={formData.progress}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Description"
+                name="description"
+                multiline
+                minRows={3}
+                value={formData.description}
                 onChange={handleInputChange}
               />
             </Grid>

@@ -18,7 +18,7 @@ import {
   CalendarToday as CalendarIcon,
   ArrowForward as ArrowIcon,
 } from "@mui/icons-material";
-import "./EngineerComponent.scss";
+import "./engineerComponent.scss";
 import { useTranslation } from "react-i18next";
 import { AppDispatch } from "../../../redux/store/store";
 

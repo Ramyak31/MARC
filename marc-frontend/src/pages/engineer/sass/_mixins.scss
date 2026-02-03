@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 @mixin title() {
     font-family: $font;
     font-size: 45px;
